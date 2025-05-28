@@ -1,4 +1,6 @@
 package org.projectTutore.refencementImmobilier.client;
 
-public class ClientRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ClientRepository extends JpaRepository<ClientEntity, Long> {
 }

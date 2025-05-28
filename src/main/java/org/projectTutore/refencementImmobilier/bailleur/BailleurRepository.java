@@ -1,4 +1,6 @@
 package org.projectTutore.refencementImmobilier.bailleur;
 
-public interface BailleurRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface BailleurRepository extends JpaRepository<BailleurEntity, Long> {
 }

@@ -1,4 +1,4 @@
-package org.projectTutore.refencementImmobilier.Configuration;
+package org.projectTutore.refencementImmobilier.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message) {
