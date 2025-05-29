@@ -7,3 +7,4 @@ docker-compose.yml
 *.iml
 .idea/
 *.log
+src/main/resources/application-local.properties
