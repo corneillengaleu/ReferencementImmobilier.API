@@ -1,14 +1,12 @@
 package org.projectTutore.refencementImmobilier.client;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
+import org.hibernate.validator.constraints.UniqueElements;
 
 
 @Entity
@@ -19,7 +17,6 @@ public class ClientEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     private Long clientId;
 
     @NotNull
@@ -29,7 +26,11 @@ public class ClientEntity {
     private String prenom;
 
     @NotNull
+    @UniqueElements
     private String tel;
+
+    @Email
+    @UniqueElements
     private String email;
 
     @NotNull

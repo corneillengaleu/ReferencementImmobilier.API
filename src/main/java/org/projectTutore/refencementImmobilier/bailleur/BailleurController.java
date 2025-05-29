@@ -1,50 +1,76 @@
 package org.projectTutore.refencementImmobilier.bailleur;
 
-import org.projectTutore.refencementImmobilier.Configuration.ApiResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.projectTutore.refencementImmobilier.Configuration.CustomApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.responses.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/bailleurs")
+@Tag(name = "Bailleurs", description = "Opérations liées à la gestion des bailleurs")
 public class BailleurController {
 
     @Autowired
     private BailleurService bailleurService;
 
+    @Operation(summary = "Créer un nouveau bailleur")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Bailleur créé avec succès"),
+            @ApiResponse(responseCode = "400", description = "Requête invalide")
+    })
     @PostMapping
-    public ResponseEntity<ApiResponse<BailleurDto>> createBailleur(@RequestBody BailleurDto bailleurDto) {
+    public ResponseEntity<CustomApiResponse<BailleurDto>> createBailleur(@RequestBody BailleurDto bailleurDto) {
         BailleurDto saved = bailleurService.createBailleur(bailleurDto);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new ApiResponse<>(true, "Bailleur créé avec succès", saved, HttpStatus.CREATED));
+                .body(new CustomApiResponse<>(true, "Bailleur créé avec succès", saved, HttpStatus.CREATED));
     }
 
+    @Operation(summary = "Lister tous les bailleurs")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Liste des bailleurs récupérée")
+    })
     @GetMapping
-    public ResponseEntity<ApiResponse<List<BailleurDto>>> getAllBailleurs() {
+    public ResponseEntity<CustomApiResponse<List<BailleurDto>>> getAllBailleurs() {
         List<BailleurDto> bailleurs = bailleurService.getAllBailleurs();
-        return ResponseEntity.ok(new ApiResponse<>(true, "Liste des bailleurs récupérée", bailleurs, HttpStatus.OK));
+        return ResponseEntity.ok(new CustomApiResponse<>(true, "Liste des bailleurs récupérée", bailleurs, HttpStatus.OK));
     }
 
+    @Operation(summary = "Récupérer un bailleur par son ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Bailleur trouvé"),
+            @ApiResponse(responseCode = "404", description = "Bailleur non trouvé")
+    })
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<BailleurDto>> getBailleurById(@PathVariable Long id) {
+    public ResponseEntity<CustomApiResponse<BailleurDto>> getBailleurById(@PathVariable Long id) {
         return bailleurService.getBailleurById(id)
-                .map(dto -> ResponseEntity.ok(new ApiResponse<>(true, "Bailleur trouvé", dto, HttpStatus.OK)))
+                .map(dto -> ResponseEntity.ok(new CustomApiResponse<>(true, "Bailleur trouvé", dto, HttpStatus.OK)))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(new ApiResponse<>(false, "Bailleur non trouvé", null, HttpStatus.NOT_FOUND)));
+                        .body(new CustomApiResponse<>(false, "Bailleur non trouvé", null, HttpStatus.NOT_FOUND)));
     }
 
+    @Operation(summary = "Supprimer un bailleur par ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Bailleur supprimé")
+    })
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteBailleur(@PathVariable Long id) {
+    public ResponseEntity<CustomApiResponse<Void>> deleteBailleur(@PathVariable Long id) {
         bailleurService.deleteBailleur(id);
-        return ResponseEntity.ok(new ApiResponse<>(true, "Bailleur supprimé", null, HttpStatus.OK));
+        return ResponseEntity.ok(new CustomApiResponse<>(true, "Bailleur supprimé", null, HttpStatus.OK));
     }
 
+    @Operation(summary = "Rechercher des bailleurs par mot-clé")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Résultats de la recherche")
+    })
     @GetMapping("/search")
-    public ResponseEntity<ApiResponse<List<BailleurDto>>> searchBailleurs(@RequestParam String keyword) {
+    public ResponseEntity<CustomApiResponse<List<BailleurDto>>> searchBailleurs(@RequestParam String keyword) {
         List<BailleurDto> result = bailleurService.searchBailleurs(keyword);
-        return ResponseEntity.ok(new ApiResponse<>(true, "Résultats de la recherche", result, HttpStatus.OK));
+        return ResponseEntity.ok(new CustomApiResponse<>(true, "Résultats de la recherche", result, HttpStatus.OK));
     }
 }

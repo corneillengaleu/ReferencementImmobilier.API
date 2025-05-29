@@ -1,6 +1,6 @@
 package org.projectTutore.refencementImmobilier.exception;
 
-import org.projectTutore.refencementImmobilier.Configuration.ApiResponse;
+import org.projectTutore.refencementImmobilier.Configuration.CustomApiResponse;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +16,13 @@ public class GlobalResponseHandler {
 
     // 🔹 Ressource non trouvée
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ApiResponse<Object>> handleNotFound(ResourceNotFoundException ex) {
+    public ResponseEntity<CustomApiResponse<Object>> handleNotFound(ResourceNotFoundException ex) {
         return buildResponse(false, ex.getMessage(), null, HttpStatus.NOT_FOUND);
     }
 
     // 🔹 Violation d'intégrité (clé unique, etc.)
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ApiResponse<Object>> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
+    public ResponseEntity<CustomApiResponse<Object>> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
         String message = "Violation d'intégrité des données.";
 
         Throwable cause = ex.getCause();
@@ -41,7 +41,7 @@ public class GlobalResponseHandler {
 
     // 🔹 Erreurs de validation (javax ou jakarta.validation)
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ApiResponse<Object>> handleConstraintViolation(ConstraintViolationException ex) {
+    public ResponseEntity<CustomApiResponse<Object>> handleConstraintViolation(ConstraintViolationException ex) {
         StringBuilder message = new StringBuilder("Erreur de validation : ");
         for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
             message.append(violation.getPropertyPath())
@@ -55,21 +55,21 @@ public class GlobalResponseHandler {
 
     // 🔹 Mauvais arguments
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ApiResponse<Object>> handleIllegalArgument(IllegalArgumentException ex) {
+    public ResponseEntity<CustomApiResponse<Object>> handleIllegalArgument(IllegalArgumentException ex) {
         return buildResponse(false, ex.getMessage(), null, HttpStatus.BAD_REQUEST);
     }
 
     // 🔹 Toutes les autres erreurs
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<Object>> handleAll(Exception ex) {
+    public ResponseEntity<CustomApiResponse<Object>> handleAll(Exception ex) {
         // Optional: log exception stack trace
         // ex.printStackTrace();
         return buildResponse(false, "Erreur interne : " + ex.getMessage(), null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     // 🔧 Méthode utilitaire pour créer une réponse
-    private ResponseEntity<ApiResponse<Object>> buildResponse(boolean success, String message, Object data, HttpStatus status) {
-        ApiResponse<Object> response = new ApiResponse<>(success, message, data, status);
+    private ResponseEntity<CustomApiResponse<Object>> buildResponse(boolean success, String message, Object data, HttpStatus status) {
+        CustomApiResponse<Object> response = new CustomApiResponse<>(success, message, data, status);
         return new ResponseEntity<>(response, status);
     }
 }

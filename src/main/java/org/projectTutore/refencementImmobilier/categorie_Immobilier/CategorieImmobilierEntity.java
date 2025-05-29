@@ -13,7 +13,6 @@ public class CategorieImmobilierEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     private Long categorieImmobilierId;
 
     @NotNull

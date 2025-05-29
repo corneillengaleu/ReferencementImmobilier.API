@@ -5,15 +5,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.http.HttpStatus;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ApiResponse<T> {
+public class CustomApiResponse<T> {
     private boolean success;
     private String message;
     private T data;
     private int status;
 
-    public ApiResponse() {}
+    public CustomApiResponse() {}
 
-    public ApiResponse(boolean success, String message, T data, HttpStatus status) {
+    public CustomApiResponse(boolean success, String message, T data, HttpStatus status) {
         this.success = success;
         this.message = message;
         this.data = data;
