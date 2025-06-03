@@ -7,13 +7,14 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "categorie_immobilier")
+
 @Getter
 @Setter
 public class CategorieImmobilierEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long categorieImmobilierId;
+    private Long categorieImmobilier_Id;
 
     @NotNull
     private String nom;

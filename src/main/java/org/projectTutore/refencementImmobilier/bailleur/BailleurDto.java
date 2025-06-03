@@ -1,7 +1,10 @@
 package org.projectTutore.refencementImmobilier.bailleur;
 
+import jakarta.persistence.Lob;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Schema(description = "Données représentant un bailleur")
@@ -23,6 +26,8 @@ public class BailleurDto {
     private String cni;
 
     @Schema(description = "URL ou chemin vers la photo du bailleur", example = "http://example.com/photos/cn.jpg")
+    @NotNull
+    @Lob
     private String photo;
 
     @Schema(description = "Adresse de résidence du bailleur", example = "Dakar, Sénégal")

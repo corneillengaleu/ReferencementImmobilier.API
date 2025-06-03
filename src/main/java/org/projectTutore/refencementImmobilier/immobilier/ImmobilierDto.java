@@ -1,5 +1,6 @@
 package org.projectTutore.refencementImmobilier.immobilier;
 
+import jakarta.persistence.Lob;
 import lombok.Data;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -37,7 +38,7 @@ public class ImmobilierDto {
     private int nombre;
 
     @Schema(description = "URL ou chemin de la photo principale du bien", example = "https://exemple.com/photos/accueil.jpg")
-    private String photoAccueil;
+    private String  photo;
 
     @Schema(description = "Identifiant de la catégorie immobilière associée", example = "5")
     private Long categorieImmobilierId;
@@ -45,3 +46,4 @@ public class ImmobilierDto {
     @Schema(description = "Identifiant du bailleur associé", example = "10")
     private Long bailleurId;
 }
+

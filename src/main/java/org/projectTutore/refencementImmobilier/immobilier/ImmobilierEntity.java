@@ -17,7 +17,7 @@ public class ImmobilierEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long immobilierId;
+    private Long immobilier_Id;
 
     @NotNull
     private String titre;
@@ -46,15 +46,17 @@ public class ImmobilierEntity {
     private int nombre;
 
     @NotNull
-    private String photoAccueil;
+    @Lob
+    @Column(name = "photo_accueil")
+    private byte[]  photo;
 
     @ManyToOne
-    @JoinColumn(name = "categorieImmobilierId", nullable = false)
+    @JoinColumn(name = "categorieImmobilier_Id", nullable = false)
     @NotNull
     private CategorieImmobilierEntity categorieImmobilier;
 
     @ManyToOne
-    @JoinColumn(name = "bailleurId", nullable = false)
+    @JoinColumn(name = "bailleur_Id", nullable = false)
     @NotNull
     private BailleurEntity bailleur;
 }

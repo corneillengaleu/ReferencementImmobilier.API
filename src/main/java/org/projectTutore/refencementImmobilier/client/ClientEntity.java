@@ -17,7 +17,7 @@ public class ClientEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long clientId;
+    private Long client_Id;
 
     @NotNull
     private String nom;
@@ -26,11 +26,11 @@ public class ClientEntity {
     private String prenom;
 
     @NotNull
-    @UniqueElements
+    @Column(unique = true)
     private String tel;
 
     @Email
-    @UniqueElements
+    @Column(unique = true)
     private String email;
 
     @NotNull

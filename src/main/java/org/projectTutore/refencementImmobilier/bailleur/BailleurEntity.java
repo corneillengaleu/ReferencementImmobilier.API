@@ -13,19 +13,30 @@ public class BailleurEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bailleurId;
+    private Long bailleur_Id;
 
     @NotNull
     private String nom;
     @NotNull
     private String prenom;
+
+    @Column(unique = true)
     @NotNull
     private String tel;
+
+    @Column(unique = true)
     private String email;
+
+
     @NotNull
+    @Column(unique = true)
     private String cni;
+
+
     @NotNull
-    private String photo;
+    @Lob
+    private byte[] photo;
+
     @NotNull
     private String residence;
 }

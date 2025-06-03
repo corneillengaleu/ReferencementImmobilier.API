@@ -8,7 +8,11 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
+<<<<<<< HEAD
         <version>3.5.0</version>
+=======
+        <version>3.3.5</version>
+>>>>>>> 36db808 (tous les crud ont ete finalise et le dynamisme d'insertion des images BD)
         <relativePath/>
     </parent>
 
@@ -84,10 +88,62 @@
 
         <!-- SpringDoc OpenAPI -->
         <dependency>
+<<<<<<< HEAD
+=======
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+>>>>>>> 36db808 (tous les crud ont ete finalise et le dynamisme d'insertion des images BD)
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.2.0</version>
         </dependency>
+
+<<<<<<< HEAD
+        <!-- Spring AI -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-pdf-document-reader</artifactId>
+        </dependency>
+
+        <!-- Tests -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>UTF-8</encoding>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
+=======
+        <!-- Jackson (doit être compatible) -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.14.0</version> <!-- ou celle correspondant à Spring Boot -->
+        </dependency>
+
 
         <!-- Spring AI -->
         <dependency>
@@ -124,6 +180,7 @@
                 </configuration>
             </plugin>
 
+>>>>>>> 36db808 (tous les crud ont ete finalise et le dynamisme d'insertion des images BD)
             <!-- Spring Boot Plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>

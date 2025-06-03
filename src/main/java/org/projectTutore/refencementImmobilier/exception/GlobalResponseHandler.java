@@ -67,7 +67,7 @@ public class GlobalResponseHandler {
         return buildResponse(false, "Erreur interne : " + ex.getMessage(), null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    // 🔧 Méthode utilitaire pour créer une réponse
+    //  Méthode utilitaire pour créer une réponse
     private ResponseEntity<CustomApiResponse<Object>> buildResponse(boolean success, String message, Object data, HttpStatus status) {
         CustomApiResponse<Object> response = new CustomApiResponse<>(success, message, data, status);
         return new ResponseEntity<>(response, status);

@@ -5,8 +5,20 @@ import org.projectTutore.refencementImmobilier.bailleur.BailleurRepository;
 import org.projectTutore.refencementImmobilier.categorie_Immobilier.CategorieImmobilierEntity;
 import org.projectTutore.refencementImmobilier.categorie_Immobilier.CategorieImmobilierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,10 +36,41 @@ public class ImmobilierService {
     private CategorieImmobilierRepository categorieImmobilierRepository;
 
     // ✅ Ajouter un bien immobilier
-    public ImmobilierDto createImmobilier(ImmobilierDto dto, Long bailleurId, Long categorieImmobilierId) {
+    public ImmobilierDto createImmobilier(ImmobilierDto dto, Long bailleurId, Long categorieImmobilierId) throws IOException {
         ImmobilierEntity entity = convertToEntity(dto);
         entity.setBailleur(getBailleurOrThrow(bailleurId));
         entity.setCategorieImmobilier(getCategorieOrThrow(categorieImmobilierId));
+        entity.setTitre(dto.getTitre());
+        entity.setDescription(dto.getDescription());
+        entity.setSuperficie(dto.getSuperficie());
+        entity.setNbreChambre(dto.getNbreChambre());
+        entity.setAdresse(dto.getAdresse());
+        entity.setPrix(dto.getPris());
+        entity.setAvis(dto.getAvis());
+        entity.setDate(dto.getDate());
+        entity.setNombre(dto.getNombre());
+
+        byte[] imageBytes;
+        if (dto.getPhoto() != null && !dto.getPhoto().isEmpty()) {
+
+            if (dto.getPhoto().startsWith("http")) {
+                // Cas : URL HTTP/HTTPS
+                URL url = new URL(dto.getPhoto());
+                try (InputStream input = url.openStream()) {
+                    imageBytes = input.readAllBytes();
+                }
+            } else {
+                // Cas : chemin local
+                Path path = Paths.get(dto.getPhoto());
+                imageBytes = Files.readAllBytes(path);
+            }
+            entity.setPhoto(imageBytes);
+
+        } else {
+            throw new IllegalArgumentException("La photo est obligatoire.");
+        }
+
+
         ImmobilierEntity saved = immobilierRepository.save(entity);
         return convertToDto(saved);
     }
@@ -46,7 +89,6 @@ public class ImmobilierService {
         existing.setAvis(dto.getAvis());
         existing.setDate(dto.getDate());
         existing.setNombre(dto.getNombre());
-        existing.setPhotoAccueil(dto.getPhotoAccueil());
         existing.setBailleur(getBailleurOrThrow(bailleurId));
         existing.setCategorieImmobilier(getCategorieOrThrow(categorieImmobilierId));
 
@@ -70,6 +112,17 @@ public class ImmobilierService {
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
+
+    public ResponseEntity<byte[]> getPhotoById(Long id) {
+        return immobilierRepository.findById(id)
+                .map(entity -> {
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.IMAGE_JPEG);
+                    return new ResponseEntity<>(entity.getPhoto(), headers, HttpStatus.OK);
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 
     // ✅ Recherche filtrée
     public List<ImmobilierDto> search(String keyword) {
@@ -98,7 +151,6 @@ public class ImmobilierService {
         entity.setAvis(dto.getAvis());
         entity.setDate(dto.getDate());
         entity.setNombre(dto.getNombre());
-        entity.setPhotoAccueil(dto.getPhotoAccueil());
         return entity;
     }
 
@@ -114,9 +166,7 @@ public class ImmobilierService {
         dto.setAvis(entity.getAvis());
         dto.setDate(entity.getDate());
         dto.setNombre(entity.getNombre());
-        dto.setPhotoAccueil(entity.getPhotoAccueil());
-        dto.setBailleurId(entity.getBailleur().getBailleurId());
-        dto.setCategorieImmobilierId(entity.getCategorieImmobilier().getCategorieImmobilierId());
+        dto.setPhoto(Arrays.toString(entity.getPhoto()));
         return dto;
     }
 
