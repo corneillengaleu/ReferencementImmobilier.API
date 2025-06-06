@@ -2,10 +2,14 @@ package org.projectTutore.refencementImmobilier.Configuration;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@Setter
+@Getter
 public class CustomApiResponse<T> {
+    // Getters and setters
     private boolean success;
     private String message;
     private T data;
@@ -20,16 +24,4 @@ public class CustomApiResponse<T> {
         this.status = status.value();
     }
 
-    // Getters and setters
-    public boolean isSuccess() { return success; }
-    public void setSuccess(boolean success) { this.success = success; }
-
-    public String getMessage() { return message; }
-    public void setMessage(String message) { this.message = message; }
-
-    public T getData() { return data; }
-    public void setData(T data) { this.data = data; }
-
-    public int getStatus() { return status; }
-    public void setStatus(int status) { this.status = status; }
 }

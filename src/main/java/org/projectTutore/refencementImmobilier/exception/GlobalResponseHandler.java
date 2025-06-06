@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 @RestControllerAdvice
@@ -39,7 +39,7 @@ public class GlobalResponseHandler {
         return buildResponse(false, message, null, HttpStatus.CONFLICT);
     }
 
-    // 🔹 Erreurs de validation (javax ou jakarta.validation)
+    // 🔹 Erreurs de validation (jakarta ou jakarta.validation)
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<CustomApiResponse<Object>> handleConstraintViolation(ConstraintViolationException ex) {
         StringBuilder message = new StringBuilder("Erreur de validation : ");
