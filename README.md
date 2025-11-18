@@ -32,7 +32,11 @@ Ce projet a pour objectif de proposer une API robuste permettant de gérer les a
 
 ---
 
-## 📦 Structure du projet
+## 👤 Auteur
 
+**Corneille Ngaleu**  
+Développeur Java / Spring Boot / ERP #SQL #Reporting 
+📧 Email : corneillengaleu@gmail.com  
+🔗 LinkedIn : https://www.linkedin.com/in/corneille-ngaleu-974b55264/
 
 
